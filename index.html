@@ -1,0 +1,933 @@
+
+    
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>CV Manfred Export</title>
+    <style>
+      /* css vars */
+      :root {
+        /* spacing */
+        --spacing_base: 4px;
+        --spacing_2: calc(var(--spacing_base) / 2);
+        --spacing_8: calc(var(--spacing_base) * 2);
+        --spacing_12: calc(var(--spacing_base) * 3);
+        --spacing_16: calc(var(--spacing_base) * 4);
+        --spacing_24: calc(var(--spacing_base) * 6);
+        --spacing_32: calc(var(--spacing_base) * 8);
+        --spacing_48: calc(var(--spacing_base) * 12);
+        --spacing_64: calc(var(--spacing_base) * 16);
+
+        /* colors */
+        --primary_color: #247A7E; /* only this color can be changed  */
+        --white_color: #f4f2f1;
+        --black_color: #0d1418;
+        --gray_color_600: #c6c3be;
+        --gray_color_800: #787673;
+        --gray_color_900: #5c5a58;
+      }
+      /* General styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        font-family: Roboto, sans-serif;
+        font-size: 16px;
+        color: var(--black_color);
+        font-style: normal;
+        background-color: var(--white_color);
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding: var(--spacing_64) var(--spacing_16);
+      }
+      .container {
+        display: grid;
+        grid-template-areas:
+          "divider header"
+          "divider aside"
+          "divider main";
+        row-gap: var(--spacing_32);
+        column-gap: var(--spacing_16);
+      }
+      .divider {
+        min-height: 100%;
+        border: var(--spacing_base) solid var(--primary_color);
+        grid-area: divider;
+      }
+      .secondary-divider {
+        border: var(--spacing_2) solid var(--primary_color);
+        width: 50%;
+      }
+      .svg-stroke {
+        stroke: var(--gray_color_800);
+      }
+      .svg-fill {
+        fill: var(--gray_color_800);
+      }
+
+      @media (min-width: 728px) {
+        body {
+          padding: var(--spacing_64);
+        }
+        .container {
+          column-gap: var(--spacing_32);
+        }
+      }
+      @media (min-width: 1024px) {
+        .container {
+          grid-template-areas:
+            "aside divider header"
+            "aside divider main";
+          max-width: 1220px;
+          align-self: center;
+        }
+      }
+      /* header styles */
+      header {
+        grid-area: header;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing_16);
+        align-self: stretch;
+      }
+
+      h1 {
+        color: var(--primary_color);
+        font-family: Roboto;
+        font-size: 40px;
+        font-weight: 900;
+        letter-spacing: 4.8px;
+        text-transform: uppercase;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_8);
+      }
+      h1 > span {
+        color: var(--gray_color_600);
+        font-size: 32px;
+        font-weight: 900;
+        letter-spacing: 3.6px;
+        text-transform: uppercase;
+      }
+      h2,
+      .job-title {
+        color: var(--gray_color_900);
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0.96px;
+      }
+      header > p {
+        color: var(--black_color);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0.6px;
+      }
+      header > hr {
+        border: var(--spacing_2) solid var(--primary_color);
+        width: 100%;
+      }
+
+      @media (min-width: 728px) {
+        h1 {
+          font-size: 48px;
+        }
+        h1 > span {
+          font-size: 36px;
+        }
+        h2,
+        .job-title {
+          font-size: 24px;
+        }
+        header > p {
+          font-size: 14px;
+          line-height: 20px;
+        }
+      }
+      @media (min-width: 1024px) {
+        h1 {
+          font-size: 52px;
+        }
+        h1 > span {
+          font-size: 40px;
+        }
+      }
+      /* aside styles */
+      aside {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_32);
+        /*TODO EJS and display none*/
+      }
+      .aside__section {
+        grid-area: aside;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_16);
+      }
+      .aside__section__header {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing_16);
+      }
+      .aside__section__header > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: var(--spacing_8);
+        height: 100%;
+      }
+      .aside__section__header > div > h3 {
+        color: var(--gray_color_900);
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+      .aside__section__item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing_8);
+        padding-left: var(--spacing_32);
+      }
+      .aside__section__item > a {
+        color: var(--black_color);
+        font-size: 14px;
+        text-decoration: none;
+        text-transform: capitalize;
+      }
+      .aside__section__item > a:hover {
+        color: var(--primary_color);
+      }
+      .aside__section__list-items {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_8);
+        padding-left: var(--spacing_32);
+        font-size: 12px;
+        line-height: 24px;
+      }
+
+      @media (min-width: 728px) {
+        .aside__section__item > a {
+          font-size: 16px;
+        }
+        .aside__section__list-items {
+          font-size: 14px;
+          line-height: 30px;
+        }
+      }
+      @media (min-width: 1024px) {
+        aside {
+          grid-area: aside;
+          padding: var(--spacing_64) 0;
+        }
+      }
+      /* main section styles */
+      main {
+        grid-area: main;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_16);
+      }
+      .main__section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_16);
+      }
+      .main__section__header {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_8);
+        color: var(var(--gray_color_900));
+        font-size: 20px;
+        font-weight: 500;
+        text-transform: uppercase;
+        width: max-content;
+      }
+      .main__section__item {
+        display: flex;
+        gap: var(--spacing_32);
+      }
+      .section__content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_16);
+      }
+      .section__content__header {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_8);
+      }
+      .section__content__header > h3 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .section__content__header > h4 {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--gray_color_800);
+      }
+      .main__section__item .date {
+        color: var(--gray_color_900);
+        font-size: 12px;
+        letter-spacing: 0.48px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_8);
+      }
+      .main__section__item > .date-desktop {
+        display: none;
+      }
+      .section__content > .data {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_8);
+        font-size: 12px;
+      }
+      .section__content > .data b {
+        font-weight: 600;
+      }
+      .section__content > .data > ul {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing_12);
+        padding-left: var(--spacing_16);
+        font-weight: 300;
+      }
+      @media (min-width: 728px) {
+        main {
+          gap: var(--spacing_32);
+        }
+        .main__section__item {
+          display: grid;
+          grid-template-columns: minmax(106px, 15%) auto 1fr;
+          gap: var(--spacing_32);
+        }
+        .main__section__item > .date-desktop {
+          display: flex;
+          min-width: max-content;
+          align-items: flex-end;
+        }
+        .section__content__header > h3 {
+          font-size: 24px;
+        }
+        .section__content__header > h4 {
+          font-size: 16px;
+        }
+        .section__content > .date-mobile {
+          display: none;
+        }
+        .section__content > .data {
+          grid-area: date;
+          font-size: 14px;
+          line-height: 18px;
+        }
+      }
+      .line-icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+      }
+      .line-icon > .circle {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid var(--primary_color);
+      }
+      .line-icon > .line {
+        flex-shrink: 1;
+        flex-grow: 1;
+        flex-basis: 100%;
+        border: 0px;
+        border-left: 2px solid var(--primary_color);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <hr class="divider" />
+
+
+      <header>
+
+        
+    <h1>Braulio <br /><span>Diez Botella</span></h1>
+    <hr />
+    <p class="job-title">Cofundador Lemoncode y Basefactor</p>
+    <p>Soy un desarrollador y formador con más de 25 años de experiencia en proyectos internacionales.
+
+Actualmente estoy centrando en el Front End (en concreto con tecnologías como React o SolidJS) y en Back End (más pegado a bases datos documentales y nodejs, aunque en el pasado trabajé con stack relaciones y .net, de hecho fui 5 años Microsoft MVP tanto por Silverlight como por ASP .net MVC).
+
+Soy cofundador y parte de equipo de dos empresas: Lemoncode (formacíon en Front End, Back End y Devops), y Basefactor (consultoría especializada)
+</p>
+
+
+
+      </header>
+
+      <aside>
+
+        
+          <div class="aside__section">
+    <div class="aside__section__header">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="21"
+        height="33"
+        viewBox="0 0 21 33"
+        fill="none"
+        class="svg-stroke"
+      >
+        <path
+          d="M19.6061 22.939C18.4811 24.2172 17.0964 25.2407 15.5444 25.9412C13.9924 26.6417 12.3088 27.003 10.6061 27.001M10.6061 27.001C8.90332 27.003 7.21973 26.6417 5.66772 25.9412C4.11571 25.2407 2.73101 24.2172 1.60608 22.939M10.6061 27.001V31.501M7.60608 31.501H13.6061M10.6061 1.50098C13.9198 1.50098 16.6061 4.18727 16.6061 7.50098V15.001C16.6061 18.3147 13.9198 21.001 10.6061 21.001C7.29237 21.001 4.60608 18.3147 4.60608 15.001V7.50098C4.60608 4.18727 7.29237 1.50098 10.6061 1.50098Z"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <div>
+        <h3>LENGUAJE / NIVEL</h3>
+        <hr class="secondary-divider" />
+      </div>
+    </div>
+    <ul class="aside__section__list-items">
+        <li>Catalán (Habilidad profesional en el trabajo)</li>
+        <li>Alemán (Habilidad limitada en el trabajo)</li>
+        <li>Inglés (Habilidad profesional completo)</li>
+    </ul>
+  </div>
+
+
+            <div class="aside__section">
+      <div class="aside__section__header">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="21"
+          height="33"
+          viewBox="0 0 21 33"
+          fill="none"
+          class="svg-stroke"
+        >
+          <path
+            d="M19.6061 22.939C18.4811 24.2172 17.0964 25.2407 15.5444 25.9412C13.9924 26.6417 12.3088 27.003 10.6061 27.001M10.6061 27.001C8.90332 27.003 7.21973 26.6417 5.66772 25.9412C4.11571 25.2407 2.73101 24.2172 1.60608 22.939M10.6061 27.001V31.501M7.60608 31.501H13.6061M10.6061 1.50098C13.9198 1.50098 16.6061 4.18727 16.6061 7.50098V15.001C16.6061 18.3147 13.9198 21.001 10.6061 21.001C7.29237 21.001 4.60608 18.3147 4.60608 15.001V7.50098C4.60608 4.18727 7.29237 1.50098 10.6061 1.50098Z"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <div>
+          <h3>HARD SKILLS</h3>
+          <hr class="secondary-divider" />
+        </div>
+      </div>
+      <ul class="aside__section__list-items">
+          <li>.Net Core</li>
+          <li>C#</li>
+          <li>CSS</li>
+          <li>D3</li>
+          <li>ES6</li>
+          <li>HTML</li>
+          <li>Jest</li>
+          <li>MongoDB</li>
+          <li>React</li>
+          <li>Redux</li>
+          <li>Redux-Saga</li>
+          <li>Svelte</li>
+          <li>TypeScript</li>
+          <li>Webpack</li>
+      </ul>
+    </div>
+
+            <div class="aside__section">
+      <div class="aside__section__header">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="21"
+          height="33"
+          viewBox="0 0 21 33"
+          fill="none"
+          class="svg-stroke"
+        >
+          <path
+            d="M19.6061 22.939C18.4811 24.2172 17.0964 25.2407 15.5444 25.9412C13.9924 26.6417 12.3088 27.003 10.6061 27.001M10.6061 27.001C8.90332 27.003 7.21973 26.6417 5.66772 25.9412C4.11571 25.2407 2.73101 24.2172 1.60608 22.939M10.6061 27.001V31.501M7.60608 31.501H13.6061M10.6061 1.50098C13.9198 1.50098 16.6061 4.18727 16.6061 7.50098V15.001C16.6061 18.3147 13.9198 21.001 10.6061 21.001C7.29237 21.001 4.60608 18.3147 4.60608 15.001V7.50098C4.60608 4.18727 7.29237 1.50098 10.6061 1.50098Z"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <div>
+          <h3>SOFT SKILLS</h3>
+          <hr class="secondary-divider" />
+        </div>
+      </div>
+      <ul class="aside__section__list-items">
+          <li>Aprendizaje Continuo</li>
+          <li>Autonomía en el aprendizaje</li>
+          <li>Capacidad de abstracción</li>
+      </ul>
+    </div>
+  
+      </aside>
+
+      <main>
+
+          <section class="main__section">
+    <div class="main__section__header">
+      <h2>Experiencia / carrera</h2>
+      <hr class="secondary-divider" />
+    </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2022-06-01</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Gastrocarta.net </h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2022-06-01</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Lead</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>Carta Online para tu restaurante, 100% accesible y 100% gratuita</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2016-08-01</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Lemoncode</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2016-08-01</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Technical Lead</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>En 2016 fundé Lemoncode, la parte especializada en formación que complementa a Basefactor, impartimos:
+
+- Formaciones incompany.
+- Formación de calendario:
+  - Máster Front End.
+  - Bootcamp Backend.
+  - Bootcamp Devops</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2014-05-01</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Basefactor</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2014-05-01</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Technical Lead</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>Socio fundador y Technical Lead de Basefactor, una empresa pequeña especializada en consultoría (Front End, Backend, Devops).
+
+Aquí he trabajado en multitud de proyectos, desde AngularJS y .net, hasta React, nodejs, MongoDb...</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2012-05-01</b></p>
+            <p>Fin: <b>2014-05-01</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Desarrollador Freelance</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2012-05-01</b></p>
+              <p>Fin: <b>2014-05-01</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Freelance</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>En estos dos años estuve trabajando como Freelance para diversos clientes tanto en formación como consultoría y eso sirvió como germen para más adelante fundar Basefactor y Lemoncode.</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2010-07-01</b></p>
+            <p>Fin: <b>2012-08-31</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Team SilverDiagram</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2010-07-01</b></p>
+              <p>Fin: <b>2012-08-31</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Freelancer</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>
+Fui cofundador del equipo de Silverdiagram, donde nos dedicábamos a:
+
+Desarrollar productos como Silver Diagram y Silver Diagram SDK.
+
+Ofrecer consultoría en Silverlight.
+
+Impartir capacitación en Silverlight.
+
+Ofrecer consultoría en ASP .net MVC.
+
+Además, fui profesor y coorganizador del máster de RIATec de la Universidad de Málaga.</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2008-08-01</b></p>
+            <p>Fin: <b>2011-08-31</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Open Source (Codeplex)</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2008-08-01</b></p>
+              <p>Fin: <b>2011-08-31</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Open Source Developer</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>Desarrolle un visor web de modelos de bases de datos y lo liberé como Open Source, también desarrolle otros proyectos menores y los liberé en Codeplex.</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2004-06-01</b></p>
+            <p>Fin: <b>2014-01-31</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Dotnetmania</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2004-06-01</b></p>
+              <p>Fin: <b>2014-01-31</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Escritor técnico (part time)</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>Estube trabjando como escritor técnico para la revista DotnetMania, especializado en .net, ejemplo de artículos: "Generación de PDF", "El Protocolo Messenger", "Generación de Excel con ASP .NET", "Expresiones Regulares", "Manejo de Correo Electrónico SMTP",  entre otros. (C#, .NET Framework, Servicios Web, Remoting, ASP .NET 1.1/2.0, Windows Forms, SQL Server, ...).
+
+También escribí un libro "optimización del rendimiento de ASP .net 2.0"</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2004-05-01</b></p>
+            <p>Fin: <b>2010-07-31</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Avanade</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2004-05-01</b></p>
+              <p>Fin: <b>2010-07-31</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Technical Lead</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>Fui Technical Lad y trabajé para clientes como Unilever, la Bolsa  de Londres, Accenture CIO, BBVA, entre otros...
+
+Tecnologías en las que trabajé: Silverlight, ASP .net, C#, SQL Srver, SSIS, SSAS, SSRS, Proclarity, ASP .net MVC, JQuery</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2001-04-01</b></p>
+            <p>Fin: <b>2004-05-31</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Holte Group</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2001-04-01</b></p>
+              <p>Fin: <b>2004-05-31</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Systems Consultant</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>Trabajé en el desarrollo de "Prosjekt Senter", un CMR en capas para almacenar datos de contactos, empresas y proyectos que permitía la integración de plugins. Algunas de las tareas que desarrollé incluyeron la integración con sistemas de terceros utilizando XML/XSD, la licencia remota y la actualización automática de los complementos a través de servicios web. Las tecnologías de desarrollo que utilicé fueron Microsoft Visual C++ / C#, MFC, ATL / COM, .NET Framework, Xml WebServices, SOAP, ADO, XML/XSD, Active Directory, Ms Access, Microsoft Visual Basic 6.0 y SQL Server.
+
+También fui miembro del equipo de "Baseline", una herramienta de análisis de costos y riesgos de proyectos. Las tecnologías de desarrollo utilizadas en este proyecto fueron Microsoft Visual C++, Active Template Library (ATL) / COM, tecnología ActiveX, Microsoft Foundation Class (MFC) y XML.</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>2000-03-01</b></p>
+            <p>Fin: <b>2001-03-31</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Global Teleworking</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>2000-03-01</b></p>
+              <p>Fin: <b>2001-03-31</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Systems Consultant</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>En este empresa estuve trabajando como consultor en dos proyectos, uno para la gestión de vigilancia remota, y en una herramienta para la gestión de proyectos.</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>1998-05-01</b></p>
+            <p>Fin: <b>2000-02-28</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Star-AG</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>1998-05-01</b></p>
+              <p>Fin: <b>2000-02-28</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Desarrollador</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>Fuí miembro del equipo del proyecto "GRIPS" (un sistema que proporciona una solución integral para la creación de contenido, gestión de contenido y publicación automatizada). Las principales tareas que he desarrollado incluyen la creación de un navegador gráfico para imágenes industriales, el desarrollo de un visor de documentos, un sistema multihebra para lanzar copias de seguridad selectivas del sistema, bibliotecas de acceso a archivos para tener acceso aleatorio a archivos comprimidos (árboles de Huffman + mejora para secuencias largas de caracteres repetidos, con acceso aleatorio a esos archivos). Tecnologías de desarrollo: Microsoft Visual C++, MFC, ODBC.</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>1996-02-01</b></p>
+            <p>Fin: <b>1996-08-31</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Noria Works Entertainment, Universal Games</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>1996-02-01</b></p>
+              <p>Fin: <b>1996-08-31</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Desarrollador</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>Publicamos un videojuego indie que llega a venderse a nivel nacional en kioskos.
+</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>1990-01-01</b></p>
+            <p>Fin: <b>1996-05-31</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Soft Mail / Sitelsa</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>1990-01-01</b></p>
+              <p>Fin: <b>1996-05-31</b></p>
+          </div>
+          <div class="data">
+            <p>Roles dentro de la empresa: <b>Desarrollador Shareware</b></p>
+              <p>Retos:</p>
+                <ul>
+                    <li>Aprendía a programar cuando tenía 10 años, a los 14 me arranque a publicar aplicaciones y juegos Shareware, estos fueron publicados por SoftMail / Sitelsae y aparecerión en encartes publicitarios como Pc Magazine, Pc World y Pc Actual.
+
+También se publicó algún juego indie en revistas como Pc Manía.
+
+Trabajé en esa época con Turbo Pascal y ensamblador</li>
+                </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+            <section class="main__section">
+      <div class="main__section__header">
+        <h2>Educación</h2>
+        <hr class="secondary-divider" />
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>1996-09-01</b></p>
+            
+            <p>Fin: <b>2006-09-01</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Ingeniero Técnico en Informatica de Gestión</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>1996-09-01</b></p>
+            
+              <p>Fin: <b>2006-09-01</b></p>
+            
+          </div>
+          <div class="data">
+            <p>Tipo de estudios: <b>Grado oficial</b></p>
+            <p>
+              Grado obtenido: 
+              <b>Obtenido</b>
+              
+            </p>
+            <p>Nombre de la institución: <b>Universidad de Málaga</b></p>
+          </div>
+        </div>
+      </div>
+      <div class="main__section__item">
+        <div class="date date-desktop">
+          <p>Inicio: <b>1994-09-01</b></p>
+            
+            <p>Fin: <b>1996-06-01</b></p>
+        </div>
+        <div class="line-icon">
+          <div class="circle"></div>
+          <hr class="line" />
+        </div>
+        <div class="section__content">
+          <div class="section__content__header">
+            <h3>Técnico especialista en Informática de Gestión (FP II)</h3>
+          </div>
+          <div class="date date-mobile">
+            <p>Inicio: <b>1994-09-01</b></p>
+            
+              <p>Fin: <b>1996-06-01</b></p>
+            
+          </div>
+          <div class="data">
+            <p>Tipo de estudios: <b>Grado oficial</b></p>
+            <p>
+              Grado obtenido: 
+              <b>Obtenido</b>
+              
+            </p>
+            <p>Nombre de la institución: <b>Cenec Informatica</b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+      </main>
+
+        </div>
+  </body>
+</html>
+
+  
